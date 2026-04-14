@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+
+# Ambientes Virtuais
+.venv/
+venv/
+env/
+
+# Ficheiros de teste e Saidas
+*.xml
+*.log
+
+# Opcional caso pretendas não versionar ficheiros de dados de rascunhos:
+# *.xlsx
