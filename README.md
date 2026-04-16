@@ -10,6 +10,41 @@ Esta é a aplicação **IRS Automator** - uma plataforma moderna para injetar e 
 
 ---
 
+## ⚠️ AVISO IMPORTANTE - Declaração de Responsabilidade
+
+**Esta aplicação é uma FERRAMENTA DE APOIO** para edição de ficheiros XML de declarações IRS.
+
+### Responsabilidades do Utilizador:
+
+🔴 **CRÍTICO - Leia Antes de Usar:**
+
+1. **Validação de Dados**: O utilizador é **inteiramente responsável** pela validação, correção e precisão de todos os dados inseridos antes de submeter a declaração aos órgãos competentes.
+
+2. **Conformidade Fiscal**: O utilizador é responsável por garantir que todos os dados cumprem com a legislação fiscal portuguesa e as normas da Autoridade Tributária e Aduaneira (AT).
+
+3. **Segurança de Ficheiros**: O utilizador é responsável por:
+   - Manter cópias de segurança dos seus ficheiros XML
+   - Proteger dados confidenciais e pessoais
+   - Não partilhar ficheiros com dados sensíveis
+
+4. **Acuidade Profissional**: Esta ferramenta **não substitui** aconselhamento fiscal profissional. Em caso de dúvidas, contacte um consultor fiscal qualificado.
+
+5. **Teste Prévio**: O utilizador deve testar todas as alterações num ambiente seguro antes de utilizar em dados reais.
+
+### Sem Garantias:
+
+- Esta aplicação é fornecida "tal como está" **SEM GARANTIAS** de qualquer tipo
+- Os criadores/desenvolvedores **não são responsáveis** por erros, omissões ou consequências da utilização
+- O utilizador assume **todo o risco** associado ao uso desta ferramenta
+
+### Conformidade Legal:
+
+- A utilização desta aplicação implica a **aceitação integral** destas condições
+- A responsabilidade legal recai **completamente no utilizador**
+- Consulte a [SECURITY.md](SECURITY.md) para política de segurança
+
+---
+
 ## ⚡ Início Rápido (3 Minutos)
 
 ### 1. Abrir Terminal
