@@ -1,3 +1,4 @@
 streamlit==1.32.0
 pandas==2.1.4
 openpyxl==3.11.0
+defusedxml==0.0.28

@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-import xml.etree.ElementTree as ET
+from defusedxml.ElementTree import fromstring as safe_fromstring, parse as safe_parse
+import xml.etree.ElementTree as ET  # nosec B405 - Used only for namespace registration, parsing done via defusedxml
 import re
 import io
 
@@ -672,7 +673,7 @@ def page_home():
         if uploaded_file is not None:
             try:
                 xml_string = uploaded_file.getvalue().decode("utf-8")
-                root = ET.fromstring(xml_string)
+                root = safe_fromstring(xml_string)  # Security: Use defusedxml to prevent XXE attacks
                 ns = get_default_namespace(xml_string)
                 if ns:
                     ET.register_namespace('', ns)
