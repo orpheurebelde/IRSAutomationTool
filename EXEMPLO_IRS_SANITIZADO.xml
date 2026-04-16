@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- 
+  FICHEIRO DE EXEMPLO SANITIZADO
+  
+  ⚠️ IMPORTANTE: Este é um ficheiro de TESTE com dados fictícios para demonstração.
+  NIFs, IBANs e valores monetários não correspondem a dados reais.
+  
+  Para usar em produção, use ficheiros XML válidos do Portal das Finanças.
+  
+  Data de Criação: 16 de Abril 2026
+-->
+<Modelo3IRSv2026 xmlns="http://www.dgci.gov.pt/2009/Modelo3IRSv2026" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" versao="1" xsi:schemaLocation="http://www.dgci.gov.pt/2009/Modelo3IRSv2026 Modelo3IRSv2026.xsd">
+<Rosto>
+<QuadroInicio />
+<Quadro01>
+<Q01C01>1910</Q01C01>
+</Quadro01>
+<Quadro02>
+<Q02C01>2025</Q02C01>
+</Quadro02>
+<Quadro03>
+<!-- NIF Fictício para Teste - 000000000 -->
+<Q03C01>000000000</Q03C01>
+</Quadro03>
+<Quadro04>
+<Q04B01>3</Q04B01>
+</Quadro04>
+<Quadro05 />
+<Quadro06>
+<Rostoq06BT01 />
+<Rostoq06BT02 />
+<Rostoq06BT03 />
+<Rostoq06CT01 />
+</Quadro06>
+<Quadro07>
+<Rostoq07AT01 />
+<Rostoq07BT01 />
+<Rostoq07CT01 />
+</Quadro07>
+<Quadro08>
+<Q08B01>1</Q08B01>
+</Quadro08>
+<Quadro09>
+<!-- IBAN Fictício para Teste - Formato válido mas conta fictícia -->
+<Q09C01>PT50000000000000000000000</Q09C01>
+<Q09B01b>true</Q09B01b>
+<Q09B01>S</Q09B01>
+</Quadro09>
+<Quadro10>
+<Q10B01>1</Q10B01>
+</Quadro10>
+<Quadro11>
+<Q11B01>5</Q11B01>
+<!-- NIF Fictício para Teste - 111111111 -->
+<Q11C01>111111111</Q11C01>
+<Q11B01a>true</Q11B01a>
+</Quadro11>
+<Quadro13>
+<Rostoq13T01 />
+</Quadro13>
+</Rosto>
+<AnexoA>
+<Quadro02>
+<AnexoAq02C01>2025</AnexoAq02C01>
+</Quadro02>
+<Quadro03>
+<!-- NIF Fictício para Teste - 000000000 -->
+<AnexoAq03C01>000000000</AnexoAq03C01>
+</Quadro03>
+<Quadro04>
+<AnexoAq04AT01>
+<AnexoAq04AT01-Linha numero="1">
+<!-- NIF Fictício para Teste - 222222222 -->
+<NIF>222222222</NIF>
+<CodRendimentos>401</CodRendimentos>
+<Titular>A</Titular>
+<Rendimentos>5000.00</Rendimentos>
+<Retencoes>350.00</Retencoes>
+<Contribuicoes>750.00</Contribuicoes>
+<Quotizacoes>0.00</Quotizacoes>
+</AnexoAq04AT01-Linha>
+</AnexoAq04AT01>
+<AnexoAq04AT01SomaC01>5000.00</AnexoAq04AT01SomaC01>
+<AnexoAq04AT01SomaC02>350.00</AnexoAq04AT01SomaC02>
+<AnexoAq04AT01SomaC03>750.00</AnexoAq04AT01SomaC03>
+<AnexoAq04AT01SomaC04>0.00</AnexoAq04AT01SomaC04>
+<AnexoAq04AT01SomaC05>0.00</AnexoAq04AT01SomaC05>
+<AnexoAq04BT01 />
+<AnexoAq04CT01 />
+<AnexoAq04CT02 />
+<AnexoAq04DT01 />
+<AnexoAq04DT02 />
+<AnexoAq04ET01 />
+<AnexoAq04FT01 />
+<AnexoAq04FT02 />
+<AnexoAq04GT01 />
+</Quadro04>
+<Quadro05>
+<AnexoAq05AT01 />
+<AnexoAq05BT01 />
+</Quadro05>
+<Quadro06>
+<AnexoAq06T01 />
+</Quadro06>
+</AnexoA>
+<AnexoG>
+<Quadro02>
+<AnexoGq02C01>2025</AnexoGq02C01>
+</Quadro02>
+<Quadro03>
+<!-- NIF Fictício para Teste - 000000000 -->
+<AnexoGq03C01>000000000</AnexoGq03C01>
+</Quadro03>
+<Quadro04>
+<AnexoGq04T01 />
+<AnexoGq04AT01 />
+<AnexoGq04BT01 />
+<AnexoGq04BT02 />
+<AnexoGq04BT03 />
+<AnexoGq04CT01 />
+<AnexoGq04DT01 />
+<AnexoGq04ET01 />
+<AnexoGq04FT01 />
+</Quadro04>
+<Quadro05>
+<AnexoGq05AT01 />
+<AnexoGq05AT02 />
+<AnexoGq05A2T01 />
+</Quadro05>
+<Quadro06>
+<AnexoGq06T01 />
+</Quadro06>
+<Quadro07>
+<AnexoGq07T01 />
+</Quadro07>
+<Quadro08>
+<AnexoGq08T01 />
+</Quadro08>
+<Quadro09>
+<AnexoGq09T01>
+<AnexoGq09T01-Linha numero="1">
+<NLinha>9001</NLinha>
+<Titular>A</Titular>
+<!-- NIF Fictício para Teste - 333333333 -->
+<NIF>333333333</NIF>
+<CodEncargos>G01</CodEncargos>
+<AnoRealizacao>2025</AnoRealizacao>
+<MesRealizacao>2</MesRealizacao>
+<DiaRealizacao>20</DiaRealizacao>
+<ValorRealizacao>3.45</ValorRealizacao>
+<AnoAquisicao>2024</AnoAquisicao>
+<MesAquisicao>4</MesAquisicao>
+<DiaAquisicao>3</DiaAquisicao>
+<ValorAquisicao>2.88</ValorAquisicao>
+<PaisContraparte>620</PaisContraparte>
+<RespeitaValoresMobiliarios>S</RespeitaValoresMobiliarios>
+</AnexoGq09T01-Linha>
+</AnexoGq09T01>
+<AnexoGq09T01SomaC01>3.45</AnexoGq09T01SomaC01>
+<AnexoGq09T01SomaC02>2.88</AnexoGq09T01SomaC02>
+<AnexoGq09T01SomaC03>0.00</AnexoGq09T01SomaC03>
+</Quadro09>
+</AnexoG>
+</Modelo3IRSv2026>

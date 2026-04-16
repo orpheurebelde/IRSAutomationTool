@@ -1,0 +1,20 @@
+# 👥 Proprietários de Código
+
+# Proprietários padrão (todo o repositório)
+* @cmvng-irs-team
+
+# Ficheiros críticos de segurança
+SECURITY.md @cmvng-irs-admin
+LICENSE @cmvng-irs-admin
+
+# Ficheiros de configuração sensível
+.gitignore @cmvng-irs-team
+requirements.txt @cmvng-irs-team
+iniciar_app.bat @cmvng-irs-team
+
+# Documentação crítica
+README.md @cmvng-irs-team
+RELATORIO_VALIDACAO_SEGURANCA.md @cmvng-irs-admin
+
+# App Python principal
+app.py @cmvng-irs-team

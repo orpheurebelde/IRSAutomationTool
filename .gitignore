@@ -1,15 +1,43 @@
 # Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
 # Ambientes Virtuais
 .venv/
 venv/
 env/
+ENV/
 
-# Ficheiros de teste e Saidas
-*.xml
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Ficheiros de teste e Saídas - MANTER ESPECÍFICO
+output/
+temp/
+.tmp/
+cache/
 *.log
+*.bak
 
-# Opcional caso pretendas não versionar ficheiros de dados de rascunhos:
-# *.xlsx
+# Dados sensíveis - NUNCA commitir
+IRS_*.xml
+Modelo_*.xlsx
+dados_reais/
+test_data/
+
+# Ficheiros temporários do SO
+.DS_Store
+Thumbs.db
+.directory
+
+# Credenciais e secrets
+.env
+.env.local
+secrets.txt
+config.local.py
