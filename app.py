@@ -568,6 +568,20 @@ def parse_pasted_data(pasted_text, paste_cols, global_vals, has_header):
         return pd.DataFrame()
 
 
+def align_to_config_columns(df, config):
+    """Garante que o DataFrame tem todas as colunas esperadas, pela ordem oficial."""
+    aligned_df = df.copy()
+    for col in config["columns"]:
+        if col not in aligned_df.columns:
+            aligned_df[col] = ""
+    return aligned_df[config["columns"]]
+
+
+def refresh_editor(selected_anexo):
+    editor_version_key = f"editor_version_{selected_anexo}"
+    st.session_state[editor_version_key] = st.session_state.get(editor_version_key, 0) + 1
+
+
 @st.dialog("📋 Dados Adicionais Necessários")
 def dialog_ask_globals(config, pasted_text, paste_cols, has_header, current_edited_df, state_key):
     global_fields = config.get("global_paste_fields", [])
@@ -585,9 +599,10 @@ def dialog_ask_globals(config, pasted_text, paste_cols, has_header, current_edit
     if st.button("Confirmar e Adicionar Tabela Final", type="primary", use_container_width=True):
         new_df = parse_pasted_data(pasted_text, paste_cols, global_vals, has_header)
         if not new_df.empty:
-            new_df = new_df[config["columns"]]
+            new_df = align_to_config_columns(new_df, config)
             combined_df = pd.concat([current_edited_df, new_df], ignore_index=True)
             st.session_state[state_key] = combined_df
+            refresh_editor(st.session_state.selected_anexo)
             st.rerun()
 
 @st.dialog("⚠️ Confirmar Eliminação")
@@ -804,6 +819,8 @@ def page_workspace():
         initial_df = extract_data_from_xml(st.session_state.xml_root, selected_anexo, st.session_state.xml_ns)
         st.session_state[f"existing_{state_key}"] = initial_df
         st.session_state[state_key] = pd.DataFrame(columns=config["columns"])
+    if f"editor_version_{selected_anexo}" not in st.session_state:
+        st.session_state[f"editor_version_{selected_anexo}"] = 0
     
     # Tabs
     tab1, tab2, tab3, tab4 = st.tabs(["📁 Dados Existentes", "➕ Novos Dados", "📝 Editor", "📤 Exportar"])
@@ -844,9 +861,10 @@ def page_workspace():
                     else:
                         new_df = parse_pasted_data(pasted_data, paste_cols, {}, has_header)
                         if not new_df.empty:
-                            new_df = new_df[config["columns"]]
+                            new_df = align_to_config_columns(new_df, config)
                             combined_df = pd.concat([st.session_state[state_key], new_df], ignore_index=True)
                             st.session_state[state_key] = combined_df
+                            refresh_editor(selected_anexo)
                             st.success("✅ Dados adicionados!")
                             st.rerun()
                 else:
@@ -858,7 +876,7 @@ def page_workspace():
         edited_df = st.data_editor(
             st.session_state[state_key],
             num_rows="dynamic",
-            key=f"editor_{selected_anexo}",
+            key=f"editor_{selected_anexo}_{st.session_state[f'editor_version_{selected_anexo}']}",
             hide_index=True,
             use_container_width=True
         )
@@ -877,6 +895,7 @@ def page_workspace():
         with col2:
             if st.button("🗑️ Limpar Tabela", type="secondary", use_container_width=True):
                 st.session_state[state_key] = pd.DataFrame(columns=config["columns"])
+                refresh_editor(selected_anexo)
                 st.rerun()
     
     with tab4:
@@ -1065,4 +1084,3 @@ elif st.session_state.current_page == "docs":
     page_docs()
 else:
     page_home()
-
