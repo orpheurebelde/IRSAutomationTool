@@ -582,28 +582,22 @@ def refresh_editor(selected_anexo):
     st.session_state[editor_version_key] = st.session_state.get(editor_version_key, 0) + 1
 
 
-@st.dialog("📋 Dados Adicionais Necessários")
-def dialog_ask_globals(config, pasted_text, paste_cols, has_header, current_edited_df, state_key):
+def render_global_inputs(config, selected_anexo):
     global_fields = config.get("global_paste_fields", [])
-    st.markdown("Preencha os dados abaixo. Estes valores serão aplicados de forma uniforme **a todas as linhas** que acabou de colar. Se os ignorar e gravar no XML a autoridade tributária poderá dar erro.")
-    
+    if not global_fields:
+        return {}
+
+    st.markdown("**Dados fixos aplicados a todas as linhas**")
     global_vals = {}
     for g_field in global_fields:
         default_val = config.get("defaults", {}).get(g_field, "")
+        widget_key = f"global_{selected_anexo}_{g_field}"
         if g_field == "Titular":
             index_start = ["A", "B", "C", "F"].index(default_val) if default_val in ["A", "B", "C", "F"] else 0
-            global_vals[g_field] = st.selectbox(f"Titular", ["A", "B", "C", "F"], index=index_start)
+            global_vals[g_field] = st.selectbox(g_field, ["A", "B", "C", "F"], index=index_start, key=widget_key)
         else:
-            global_vals[g_field] = st.text_input(f"{g_field}", value=default_val)
-            
-    if st.button("Confirmar e Adicionar Tabela Final", type="primary", use_container_width=True):
-        new_df = parse_pasted_data(pasted_text, paste_cols, global_vals, has_header)
-        if not new_df.empty:
-            new_df = align_to_config_columns(new_df, config)
-            combined_df = pd.concat([current_edited_df, new_df], ignore_index=True)
-            st.session_state[state_key] = combined_df
-            refresh_editor(st.session_state.selected_anexo)
-            st.rerun()
+            global_vals[g_field] = st.text_input(g_field, value=default_val, key=widget_key)
+    return global_vals
 
 @st.dialog("⚠️ Confirmar Eliminação")
 def dialog_clear_existing(anexo_name):
@@ -852,21 +846,19 @@ def page_workspace():
         with col1:
             pasted_data = st.text_area("Cole aqui os dados (Excel/CSV):", height=200, key=f"paste_{selected_anexo}")
         with col2:
-            has_header = st.checkbox("Incluir cabeçalho?", value=False)
+            has_header = st.checkbox("Incluir cabeçalho?", value=False, key=f"header_{selected_anexo}")
+            global_vals = render_global_inputs(config, selected_anexo)
             
             if st.button("✅ Adicionar à Tabela", use_container_width=True, type="primary"):
                 if pasted_data.strip():
-                    if config.get("global_paste_fields"):
-                        dialog_ask_globals(config, pasted_data, paste_cols, has_header, st.session_state[state_key], state_key)
-                    else:
-                        new_df = parse_pasted_data(pasted_data, paste_cols, {}, has_header)
-                        if not new_df.empty:
-                            new_df = align_to_config_columns(new_df, config)
-                            combined_df = pd.concat([st.session_state[state_key], new_df], ignore_index=True)
-                            st.session_state[state_key] = combined_df
-                            refresh_editor(selected_anexo)
-                            st.success("✅ Dados adicionados!")
-                            st.rerun()
+                    new_df = parse_pasted_data(pasted_data, paste_cols, global_vals, has_header)
+                    if not new_df.empty:
+                        new_df = align_to_config_columns(new_df, config)
+                        combined_df = pd.concat([st.session_state[state_key], new_df], ignore_index=True)
+                        st.session_state[state_key] = combined_df
+                        refresh_editor(selected_anexo)
+                        st.success("✅ Dados adicionados!")
+                        st.rerun()
                 else:
                     st.warning("Cole alguns dados primeiro")
     
