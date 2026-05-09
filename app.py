@@ -637,7 +637,7 @@ with st.sidebar:
     }
     
     for page_name, page_id in pages.items():
-        if st.button(page_name, use_container_width=True, 
+        if st.button(page_name, width="stretch", 
                      key=f"btn_{page_id}",
                      type="primary" if st.session_state.current_page == page_id else "secondary"):
             st.session_state.current_page = page_id
@@ -647,7 +647,7 @@ with st.sidebar:
     
     if st.session_state.xml_root is not None:
         st.success(f"✅ Ficheiro Carregado:\n`{st.session_state.xml_filename}`")
-        if st.button("🔄 Descarregar Ficheiro", use_container_width=True, type="secondary"):
+        if st.button("🔄 Descarregar Ficheiro", width="stretch", type="secondary"):
             st.session_state.xml_root = None
             st.session_state.xml_ns = None
             st.session_state.xml_filename = None
@@ -694,6 +694,8 @@ def page_home():
                 
                 st.success("✅ Ficheiro processado com sucesso!")
                 st.balloons()
+                import time
+                time.sleep(2)
                 st.session_state.current_page = "dashboard"
                 st.rerun()
             except Exception as e:
@@ -778,7 +780,7 @@ def page_dashboard():
                     </div>
                     """, unsafe_allow_html=True)
                     
-                    if st.button(f"✏️ Editar {anexo_name.split('-')[0]}", use_container_width=True, key=f"edit_{anexo_name}"):
+                    if st.button(f"✏️ Editar {anexo_name.split('-')[0]}", width="stretch", key=f"edit_{anexo_name}"):
                         st.session_state.selected_anexo = anexo_name
                         st.session_state.current_page = "workspace"
                         st.rerun()
@@ -823,7 +825,7 @@ def page_workspace():
     with tab1:
         st.subheader("Dados Já Presentes no Ficheiro")
         if not st.session_state[f"existing_{state_key}"].empty and not st.session_state[f"clear_existing_{selected_anexo}"]:
-            st.dataframe(st.session_state[f"existing_{state_key}"], use_container_width=True, hide_index=True)
+            st.dataframe(st.session_state[f"existing_{state_key}"], width="stretch", hide_index=True)
             
             # Mostrar somatórios se existirem
             sums = extract_sums_from_xml(st.session_state.xml_root, selected_anexo, st.session_state.xml_ns)
@@ -850,7 +852,7 @@ def page_workspace():
             has_header = st.checkbox("Incluir cabeçalho?", value=False, key=f"header_{selected_anexo}")
             global_vals = render_global_inputs(config, selected_anexo)
             
-            if st.button("✅ Adicionar à Tabela", use_container_width=True, type="primary"):
+            if st.button("✅ Adicionar à Tabela", width="stretch", type="primary", key=f"btn_add_{selected_anexo}"):
                 if pasted_data.strip():
                     new_df = parse_pasted_data(pasted_data, paste_cols, global_vals, has_header)
                     if not new_df.empty:
@@ -858,8 +860,9 @@ def page_workspace():
                         combined_df = pd.concat([st.session_state[state_key], new_df], ignore_index=True)
                         st.session_state[state_key] = combined_df
                         refresh_editor(selected_anexo)
-                        st.success("✅ Dados adicionados!")
-                        st.rerun()
+                        st.success("✅ Dados adicionados! Verifique o separador '📝 Editor'.")
+                    else:
+                        st.error("Nenhum dado válido encontrado para adicionar.")
                 else:
                     st.warning("Cole alguns dados primeiro")
     
@@ -871,7 +874,7 @@ def page_workspace():
             num_rows="dynamic",
             key=f"editor_{selected_anexo}_{st.session_state[f'editor_version_{selected_anexo}']}",
             hide_index=True,
-            use_container_width=True
+            width="stretch"
         )
         
         # Mostrar somatórios se existirem
@@ -881,12 +884,12 @@ def page_workspace():
         
         col1, col2 = st.columns(2)
         with col1:
-            if st.button("💾 Guardar Alterações", use_container_width=True):
+            if st.button("💾 Guardar Alterações", width="stretch"):
                 st.session_state[state_key] = edited_df
                 st.success("✅ Alterações guardadas!")
         
         with col2:
-            if st.button("🗑️ Limpar Tabela", type="secondary", use_container_width=True):
+            if st.button("🗑️ Limpar Tabela", type="secondary", width="stretch"):
                 st.session_state[state_key] = pd.DataFrame(columns=config["columns"])
                 refresh_editor(selected_anexo)
                 st.rerun()
@@ -899,7 +902,7 @@ def page_workspace():
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            if st.button(f"🔁 Aplicar {selected_anexo}", type="primary", use_container_width=True):
+            if st.button(f"🔁 Aplicar {selected_anexo}", type="primary", width="stretch"):
                 inject_data_to_xml(st.session_state.xml_root, selected_anexo, st.session_state.xml_ns, 
                                  edited_df if 'edited_df' in locals() else st.session_state[state_key], 
                                  st.session_state[f"clear_existing_{selected_anexo}"])
@@ -919,11 +922,11 @@ def page_workspace():
                     file_name=f"IRS_Modificado.xml",
                     mime="application/xml",
                     type="primary",
-                    use_container_width=True
+                    width="stretch"
                 )
         
         with col3:
-            if 'ready_xml' in st.session_state and st.button("💾 Guardar Localmente", use_container_width=True):
+            if 'ready_xml' in st.session_state and st.button("💾 Guardar Localmente", width="stretch"):
                 import tkinter as tk
                 from tkinter import filedialog
                 
