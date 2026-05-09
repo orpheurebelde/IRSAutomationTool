@@ -837,8 +837,18 @@ def page_workspace():
             if sums:
                 display_sums_box(sums, config, selected_anexo)
             
-            if st.button("🗑️ Apagar Histórico Original", type="primary"):
-                dialog_clear_existing(selected_anexo)
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("✏️ Editar Histórico Original", type="secondary", width="stretch"):
+                    combined_df = pd.concat([st.session_state[state_key], st.session_state[f"existing_{state_key}"]], ignore_index=True)
+                    st.session_state[state_key] = combined_df
+                    st.session_state[f"clear_existing_{selected_anexo}"] = True
+                    refresh_editor(selected_anexo)
+                    st.success("✅ Dados movidos para o separador '📝 Editor'!")
+            
+            with col2:
+                if st.button("🗑️ Apagar Histórico Original", type="primary", width="stretch"):
+                    dialog_clear_existing(selected_anexo)
         else:
             st.info("Sem dados existentes ou dados foram apagados")
     
@@ -887,13 +897,34 @@ def page_workspace():
         if sums:
             display_sums_box(sums)
         
-        col1, col2 = st.columns(2)
+        col1, col2, col3 = st.columns(3)
         with col1:
             if st.button("💾 Guardar Alterações", width="stretch"):
                 st.session_state[state_key] = edited_df
                 st.success("✅ Alterações guardadas!")
         
         with col2:
+            if st.button("🔄 Agrupar Repetidos", type="secondary", width="stretch"):
+                num_cols = [col for col in config["columns"] if any(key in col for key in ["Valor", "Despesa", "Rend", "Imp", "Retenç", "Contribuiç", "Quotizaç"])]
+                non_num_cols = [col for col in config["columns"] if col not in num_cols]
+                
+                temp_df = edited_df.copy()
+                for c in num_cols:
+                    temp_df[c] = temp_df[c].apply(clean_pt_float)
+                
+                # Group by identifying columns
+                temp_df = temp_df.groupby(non_num_cols, as_index=False, dropna=False)[num_cols].sum()
+                
+                for c in num_cols:
+                    temp_df[c] = temp_df[c].apply(lambda x: f"{x:.2f}".replace('.', ',') if x != 0 else "0,00")
+                
+                # Reorder back to original and save
+                temp_df = temp_df[config["columns"]]
+                st.session_state[state_key] = temp_df
+                refresh_editor(selected_anexo)
+                st.rerun()
+
+        with col3:
             if st.button("🗑️ Limpar Tabela", type="secondary", width="stretch"):
                 st.session_state[state_key] = pd.DataFrame(columns=config["columns"])
                 refresh_editor(selected_anexo)
