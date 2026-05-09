@@ -468,7 +468,7 @@ def inject_data_to_xml(root, anexo_name, ns, df, clear_existing=False):
             field_val = str(row.get(col_name, "")).strip()
             
             # Formatar para 2 casas decimais colunas financeiras
-            if any(key in col_name for key in ["Valor", "Despesas", "Rendimento", "Imp."]):
+            if any(key in col_name for key in ["Valor", "Despesa", "Rend", "Imp", "Retenç", "Contribuiç", "Quotizaç"]):
                 numeric_val = clean_pt_float(field_val)
                 field_val = "0.00" if numeric_val == 0 else f"{numeric_val:.2f}"
 
@@ -691,6 +691,11 @@ def page_home():
                 st.session_state.xml_root = root
                 st.session_state.xml_ns = ns
                 st.session_state.xml_filename = uploaded_file.name
+                
+                # Clear cached dataframes for all anexos so the new file is read fresh!
+                keys_to_clear = [k for k in st.session_state.keys() if k.startswith("df_") or k.startswith("existing_df_") or k.startswith("clear_existing_") or k.startswith("editor_version_")]
+                for k in keys_to_clear:
+                    del st.session_state[k]
                 
                 st.success("✅ Ficheiro processado com sucesso!")
                 st.balloons()
