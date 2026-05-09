@@ -899,7 +899,7 @@ def page_workspace():
         
         st.info("Aplique as mudanças ao ficheiro XML e exporte-o")
         
-        col1, col2, col3 = st.columns(3)
+        col1, col2 = st.columns(2)
         
         with col1:
             if st.button(f"🔁 Aplicar {selected_anexo}", type="primary", width="stretch"):
@@ -924,30 +924,6 @@ def page_workspace():
                     type="primary",
                     width="stretch"
                 )
-        
-        with col3:
-            if 'ready_xml' in st.session_state and st.button("💾 Guardar Localmente", width="stretch"):
-                import tkinter as tk
-                from tkinter import filedialog
-                
-                root_tk = tk.Tk()
-                root_tk.withdraw()
-                root_tk.attributes("-topmost", True)
-                save_path = filedialog.asksaveasfilename(
-                    defaultextension=".xml",
-                    initialfile="IRS_Modificado.xml",
-                    title="Guardar ficheiro XML",
-                    filetypes=[("XML files", "*.xml"), ("All files", "*.*")]
-                )
-                root_tk.destroy()
-                
-                if save_path:
-                    try:
-                        with open(save_path, "wb") as f:
-                            f.write(st.session_state['ready_xml'])
-                        st.success(f"✅ Ficheiro guardado em:\n`{save_path}`")
-                    except Exception as e:
-                        st.error(f"❌ Erro ao guardar: {e}")
 
 # ==================== PÁGINA: CONFIGURAÇÕES ====================
 def page_config():
