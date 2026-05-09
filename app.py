@@ -538,9 +538,10 @@ def parse_pasted_data(pasted_text, paste_cols, global_vals, has_header):
             df = pd.read_csv(io.StringIO(pasted_text), sep=',', dtype=str, header=header_val)
             
         taken_cols = min(len(df.columns), len(paste_cols))
-        new_df = pd.DataFrame(columns=paste_cols)
-        for i in range(taken_cols):
-            new_df[paste_cols[i]] = df.iloc[:, i]
+        new_df = df.iloc[:, :taken_cols].copy()
+        new_df.columns = paste_cols[:taken_cols]
+        for col in paste_cols[taken_cols:]:
+            new_df[col] = ""
             
         new_df = new_df.fillna("")
         
